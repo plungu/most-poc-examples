@@ -21,7 +21,7 @@ mvn spring-boot:run
 Or you can use the application.properties file to specify the profile.
 
 ```yaml
-spring.profiles.active: dev,renewals
+spring.profiles.active: dev,renewal
 ```
 
 ### Loading Data
