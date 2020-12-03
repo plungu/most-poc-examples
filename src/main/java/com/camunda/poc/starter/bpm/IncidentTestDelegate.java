@@ -1,11 +1,11 @@
 package com.camunda.poc.starter.bpm;
 
-import java.util.logging.Logger;
-
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+
+import java.util.logging.Logger;
 
 
 /**
@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component;
  * illustrating how a Java Delegate can be used 
  * from within a BPMN 2.0 Service Task.
  */
-@Component("logger")
-public class LoggerDelegate implements JavaDelegate {
+@Component("incidentTestDelegate")
+public class IncidentTestDelegate implements JavaDelegate {
  
   private final Logger LOGGER = Logger.getLogger(Class.class.getName());
   
@@ -28,6 +28,12 @@ public class LoggerDelegate implements JavaDelegate {
             + ", businessKey=" + execution.getProcessBusinessKey()
             + ", executionId=" + execution.getId()
             + " \n\n");
+
+    Boolean error = (Boolean) execution.getVariable("error");
+    if(error) {
+      throw new Exception("MY BPMN Exception");
+    }
+
   }
 
 }

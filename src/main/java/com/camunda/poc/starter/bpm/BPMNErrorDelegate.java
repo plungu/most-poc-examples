@@ -16,11 +16,11 @@ import java.util.logging.Logger;
 @Component("bpmnError")
 public class BPMNErrorDelegate implements JavaDelegate {
  
-  private final Logger LOGGER = Logger.getLogger(BPMNErrorDelegate.class.getName());
+  private final Logger LOGGER = Logger.getLogger(Class.class.getName());
   
   public void execute(DelegateExecution execution) throws Exception {
     
-    LOGGER.info("\n\n  ... BPMNErrorDelegate invoked by "
+    LOGGER.info("\n\n  ... invoked by "
             + "processDefinitionId=" + execution.getProcessDefinitionId()
             + ", activtyId=" + execution.getCurrentActivityId()
             + ", activtyName='" + execution.getCurrentActivityName() + "'"
@@ -29,8 +29,7 @@ public class BPMNErrorDelegate implements JavaDelegate {
             + ", executionId=" + execution.getId()
             + " \n\n");
 
-//    throw new BpmnError("217");
-    throw new Exception("MY BPMN Exception");
+    throw new BpmnError("217");
   }
 
 }

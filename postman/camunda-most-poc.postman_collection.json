@@ -1,0 +1,523 @@
+{
+	"info": {
+		"_postman_id": "2a223d19-178a-4acb-9276-4d945e058ea7",
+		"name": "camunda-most-poc",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get-process-definition",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "52ebfc2b-06fa-4383-b68a-01885693a0e9",
+						"exec": [
+							"",
+							"pm.test(\"A credit-balance task is returned\", () => {",
+							"     pm.response.to.have.status(200);",
+							"})",
+							"",
+							"pm.test(\"response must be valid and have a body\", function () {",
+							"     // assert that the status code is 200",
+							"     pm.response.to.be.ok; // info, success, redirection, clientError,  serverError, are other variants",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json; // this assertion also checks if a body  exists, so the above check is not needed",
+							"});",
+							"",
+							"var processName = \"PaymentProcess\";",
+							"",
+							"pm.test(\"Test if Payment Process exists\", function () { ",
+							"    ",
+							"    pm.expect(responseBody.has(processName)).to.equal(true); ",
+							"    ",
+							"    var data = JSON.parse(responseBody);",
+							"",
+							"    var reducedData = [];",
+							"    data.forEach(function (obj, index){",
+							"        ",
+							"            if(obj.key.includes(processName)){",
+							"                reducedData.push(obj);",
+							"            } ",
+							"        }",
+							"    )",
+							"    ",
+							"    obj = reducedData.reduce(function (reducer, current){",
+							"        console.log( current.version );",
+							"        if (current.version > reducer.version)",
+							"            return current;",
+							"        else",
+							"            return reducer;",
+							"    })    ",
+							"    ",
+							"    pm.environment.set(\"key\", obj.key);",
+							"    console.log( \"Process Key Set: \"",
+							"        +pm.environment.get(\"key\") );",
+							"",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/rest/process-definition",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rest",
+						"process-definition"
+					]
+				},
+				"description": "Create process instances for demo"
+			},
+			"response": []
+		},
+		{
+			"name": "start-process",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c536f747-5278-41f5-b432-6e9a26efacb4",
+						"exec": [
+							"pm.test(\"A valid response is reuturned\", () => {",
+							"     pm.response.to.have.status(200);",
+							"})",
+							"",
+							"pm.test(\"response must be valid and have a body\", function () {",
+							"     // assert that the status code is 200",
+							"     pm.response.to.be.ok; // info, success, redirection, clientError,  serverError, are other variants",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json; // this assertion also checks if a body  exists, so the above check is not needed",
+							"});",
+							"",
+							"pm.test(\"Test if Payment Process Started and has ProcessId\", function () { ",
+							"    ",
+							"    var data = JSON.parse(responseBody);",
+							"",
+							"    console.log(` Response: Process Id =  ${data.id}` );",
+							"",
+							"",
+							"    var jsonData = pm.response.json();",
+							"    console.log(`Response: ${jsonData.id}`);",
+							"    ",
+							"    pm.response.to.have.jsonBody(\"id\"); ",
+							"",
+							"});",
+							"",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"businessKey\" : \"{{$guid}}\",\n\t\"variables\": {\n\t\t\"remainingDays\": \n\t\t{\n\t\t\t\"value\": 10\n\t\t},\n\t\t\"renewalConfirmed\": \n\t\t{\n\t\t\t\"value\": false\n\t\t},\n\t\t\"address\":\n\t\t{\n\t\t\t\"value\":\"{\\\"type\\\": \\\"PostalAddress\\\",\\\"addressLocality\\\": \\\"Denver\\\",\\\"addressRegion\\\": \\\"CO\\\",\\\"postalCode\\\": \\\"80209\\\",\\\"streetAddress\\\": \\\"7 S. Broadway\\\"}\",\n\t\t\t\"type\":\"Json\"\n\t\t},\n\t\t\"contact\": \n\t\t{\n\t\t\t\"value\": \"{\\\"name\\\": \\\"Paul\\\", \\\"email\\\": \\\"Paul.Lungu@camunda.com\\\"}\",\n\t\t\t\"type\": \"Object\",\n\t\t\t\"valueInfo\": \n\t\t\t{\n\t\t\t\t\"objectTypeName\": \"com.camunda.poc.starter.entity.Contact\",\n\t\t\t\t\"serializationDataFormat\": \"application/json\"\n\t\t\t}\n\t    }\n\t}\n}\n",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/rest/process-definition/key/process-variables-example/start",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rest",
+						"process-definition",
+						"key",
+						"process-variables-example",
+						"start"
+					]
+				},
+				"description": "Starts a process instance with the rest API"
+			},
+			"response": []
+		},
+		{
+			"name": "start-process-custom-incident-handler",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4298ce4c-3f13-436b-bc68-81dd834da4f6",
+						"exec": [
+							"pm.test(\"A valid response is reuturned\", () => {",
+							"     pm.response.to.have.status(200);",
+							"})",
+							"",
+							"pm.test(\"response must be valid and have a body\", function () {",
+							"     // assert that the status code is 200",
+							"     pm.response.to.be.ok; // info, success, redirection, clientError,  serverError, are other variants",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json; // this assertion also checks if a body  exists, so the above check is not needed",
+							"});",
+							"",
+							"pm.test(\"Test if Payment Process Started and has ProcessId\", function () { ",
+							"    ",
+							"    var data = JSON.parse(responseBody);",
+							"",
+							"    console.log(` Response: Process Id =  ${data.id}` );",
+							"",
+							"",
+							"    var jsonData = pm.response.json();",
+							"    console.log(`Response: ${jsonData.id}`);",
+							"    ",
+							"    pm.response.to.have.jsonBody(\"id\"); ",
+							"",
+							"});",
+							"",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"businessKey\" : \"{{$guid}}\",\n\t\"variables\": {\n\t\t\"remainingDays\": \n\t\t{\n\t\t\t\"value\": 10\n\t\t},\n\t\t\"error\": \n\t\t{\n\t\t\t\"value\": false\n\t\t},\n\t\t\"address\":\n\t\t{\n\t\t\t\"value\":\"{\\\"type\\\": \\\"PostalAddress\\\",\\\"addressLocality\\\": \\\"Denver\\\",\\\"addressRegion\\\": \\\"CO\\\",\\\"postalCode\\\": \\\"80209\\\",\\\"streetAddress\\\": \\\"7 S. Broadway\\\"}\",\n\t\t\t\"type\":\"Json\"\n\t\t},\n\t\t\"contact\": \n\t\t{\n\t\t\t\"value\": \"{\\\"name\\\": \\\"Paul\\\", \\\"email\\\": \\\"Paul.Lungu@camunda.com\\\"}\",\n\t\t\t\"type\": \"Object\",\n\t\t\t\"valueInfo\": \n\t\t\t{\n\t\t\t\t\"objectTypeName\": \"com.camunda.poc.starter.entity.Contact\",\n\t\t\t\t\"serializationDataFormat\": \"application/json\"\n\t\t\t}\n\t    }\n\t}\n}\n",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/engine-rest/process-definition/key/incident-handler-example/start",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"engine-rest",
+						"process-definition",
+						"key",
+						"incident-handler-example",
+						"start"
+					]
+				},
+				"description": "Starts a process instance with the rest API"
+			},
+			"response": []
+		},
+		{
+			"name": "start-process-modification-example",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f02fb8b1-0895-4bb2-9e9b-b818a5b8e9ee",
+						"exec": [
+							"pm.test(\"A valid response is reuturned\", () => {",
+							"     pm.response.to.have.status(200);",
+							"})",
+							"",
+							"pm.test(\"response must be valid and have a body\", function () {",
+							"     // assert that the status code is 200",
+							"     pm.response.to.be.ok; // info, success, redirection, clientError,  serverError, are other variants",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json; // this assertion also checks if a body  exists, so the above check is not needed",
+							"});",
+							"",
+							"pm.test(\"Test if Payment Process Started and has Biz Key\", function () { ",
+							"    ",
+							"    var data = JSON.parse(responseBody);",
+							"",
+							"    console.log(` Response: Process Id =  ${data.businessKey}` );",
+							"",
+							"",
+							"    var jsonData = pm.response.json();",
+							"    console.log(`Response: ${jsonData.businessKey}`);",
+							"    ",
+							"    pm.response.to.have.jsonBody(\"id\"); ",
+							"",
+							"    pm.environment.set(\"bizKey\", data.businessKey)",
+							"",
+							"});",
+							"",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"businessKey\" : \"{{$guid}}\",\n\t\"variables\": {\n\t\t\"remainingDays\": \n\t\t{\n\t\t\t\"value\": 10\n\t\t},\n\t\t\"error\": \n\t\t{\n\t\t\t\"value\": true\n\t\t},\n\t\t\"address\":\n\t\t{\n\t\t\t\"value\":\"{\\\"type\\\": \\\"PostalAddress\\\",\\\"addressLocality\\\": \\\"Denver\\\",\\\"addressRegion\\\": \\\"CO\\\",\\\"postalCode\\\": \\\"80209\\\",\\\"streetAddress\\\": \\\"7 S. Broadway\\\"}\",\n\t\t\t\"type\":\"Json\"\n\t\t},\n\t\t\"contact\": \n\t\t{\n\t\t\t\"value\": \"{\\\"name\\\": \\\"Paul\\\", \\\"email\\\": \\\"Paul.Lungu@camunda.com\\\"}\",\n\t\t\t\"type\": \"Object\",\n\t\t\t\"valueInfo\": \n\t\t\t{\n\t\t\t\t\"objectTypeName\": \"com.camunda.poc.starter.entity.Contact\",\n\t\t\t\t\"serializationDataFormat\": \"application/json\"\n\t\t\t}\n\t    }\n\t}\n}\n",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/engine-rest/process-definition/key/process-modification-example/start",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"engine-rest",
+						"process-definition",
+						"key",
+						"process-modification-example",
+						"start"
+					]
+				},
+				"description": "Starts a process instance with the rest API"
+			},
+			"response": []
+		},
+		{
+			"name": "Get task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9d79308f-c29b-4fad-866f-a1c383833d2f",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"pm.environment.set(\"userTaskId\",jsonData[0].id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/rest/task",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rest",
+						"task"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Complete task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "21a44b2e-fb6c-4728-bdb3-56de6e3decf7",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"variables\": {\n        \"aStringVariable\": {\n            \"value\": \"aStringValue\"\n        }\n    },\n    \"withVariablesInReturn\": true\n}",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/rest/task/{{userTaskId}}/complete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rest",
+						"task",
+						"{{userTaskId}}",
+						"complete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "message-corrolation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b01e88c4-d6f9-424e-b75a-7d23d4eda14b",
+						"exec": [
+							"pm.test(\"response must be valid and have a body\", function () {",
+							"     // assert that the status code is 200",
+							"     pm.response.to.be.ok; // info, success, redirection, clientError,  serverError, are other variants",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json; // this assertion also checks if a body  exists, so the above check is not needed",
+							"",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "39223d14-6bfc-4efd-a860-14e032dcab1a",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"messageName\" : \"message-homeowner-poi\",\n  \"businessKey\" : \"{{loanNumber}}\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/engine-rest/message",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"engine-rest",
+						"message"
+					]
+				},
+				"description": "Starts a process instance with the rest API"
+			},
+			"response": []
+		},
+		{
+			"name": "message-corrolation-modification-example",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fec9401b-6de8-42d3-8655-a54af6c74b3e",
+						"exec": [
+							"pm.test(\"response must be valid and have a body\", function () {",
+							"     // assert that the status code is 200",
+							"     pm.response.to.be.ok; // info, success, redirection, clientError,  serverError, are other variants",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json; // this assertion also checks if a body  exists, so the above check is not needed",
+							"",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "bf6b48b2-7737-4342-ade4-3d7507a8a565",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"messageName\" : \"modify-porcess\",\n  \"businessKey\" : \"{{bizKey}}\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/engine-rest/message",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"engine-rest",
+						"message"
+					]
+				},
+				"description": "Starts a process instance with the rest API"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

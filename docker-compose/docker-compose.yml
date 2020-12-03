@@ -3,6 +3,25 @@ version: "3.3"
 services:
 
 ########################################
+# Hazelcast Service
+########################################
+  hazelcast:
+    image: hazelcast/hazelcast
+    restart: always
+    environment:
+      JAVA_OPTS: "-Dhazelcast:local:publicAddress=<host_ip>:5701"
+    ports:
+      - "5701:5701"
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 500M
+        reservations:
+          cpus: '1'
+          memory: 200M
+
+########################################
 # Camunda Service
 ########################################
 
@@ -64,6 +83,24 @@ services:
           cpus: '3'
           memory: 2000M
 
+
+
+  #########################################
+  # Rabbit MQ Service
+  #########################################
+
+  rabbitmq-mgmt:
+    image: rabbitmq:3-management
+    hostname: rabbitmq-mgmt
+    ports:
+      - "9500:15672"
+      - "5672:5672"
+      - "4369:4369"
+      - "5671:5671"
+
+
+
+
 #########################################
 # Camunda Optimize
 #########################################
@@ -97,72 +134,3 @@ services:
 #########################################
 #  spring-boot-admin:
 #    image:
-
-#########################################
-# Rabbit MQ Service
-#########################################
-
-#  rabbitmq-mgmt:
-#    image: rabbitmq:3-management
-#    hostname: rabbitmq-mgmt
-#    ports:
-#      - "9500:15672"
-#      - "5672:5672"
-#      - "4369:4369"
-#      - "5671:5671"
-
-#########################################
-# LDAP Service
-#########################################
-# ou=people,ou=example,ou=com
-#  ou=jane,ou=people,ou=example,ou=com (Password: jane)
-#  ou=john,ou=people,ou=example,ou=com (Password: john)
-#  ou=joe,ou=people,ou=example,ou=com (Password: joe)
-#  ou=judy,ou=people,ou=example,ou=com (Password: judy)
-# ou=groups,ou=example,ou=com
-#  ou=camunda-users,ou=people,ou=example,ou=com
-#  ou=all-users,ou=people,ou=example,ou=com
-#
-#########################################
-#  apacheds:
-#    image: kuchenmn/cam-apacheds
-#    restart: always
-#    environment:
-#      USER: demo
-#    ports:
-#    - 10389:10389
-
-
-##########################################
-#      - Key Cloak Realted Services
-##########################################
-#  jboss.keycloak:
-#    build: .
-#    image: jboss/keycloak
-#    image: gunnaraccso/keycloak.server:5.0.0
-#    restart: always
-#    environment:
-#      TZ: Europe/Berlin
-#      KEYCLOAK_USER: keycloak
-#      KEYCLOAK_PASSWORD: keycloak1!
-#    ports:
-#      - "9001:8443"
-#      - "9000:8080"
-
-#  Create a service named db.
-#  postgres:
-#   Use the Docker Image postgres. This will pull the newest release.
-#    image: "postgres"
-#   Give the container the name my_postgres. You can changes to something else.
-#    container_name: "postgres"
-#   Setup the username, password, and database name. You can changes these values.
-#    environment:
-#      - POSTGRES_USER=keycloak
-#      - POSTGRES_PASSWORD=password
-#      - POSTGRES_DB=keycloak
-#   Maps port 54320 (localhost) to port 5432 on the container. You can change the ports to fix your needs.
-#    ports:
-#      - "54320:5432"
-#   Set a volume some that database is not lost after shutting down the container.
-#   I used the name postgres-data but you can changed it to something else.
-#    volumes:

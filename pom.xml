@@ -55,15 +55,7 @@
         <scope>import</scope>
         <type>pom</type>
       </dependency>
-<!--       
-	  <dependency>
-        <groupId>org.camunda.bpm.dmn</groupId>
-        <artifactId>camunda-engine-dmn-bom</artifactId>
-        <version>${camunda.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
- -->
+
        <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-dependencies</artifactId>
@@ -113,22 +105,12 @@
 		<groupId>com.h2database</groupId>
 		<artifactId>h2</artifactId>
 	</dependency>
-<!--    <dependency>-->
-<!--      <groupId>org.apache.tomcat</groupId>-->
-<!--      <artifactId>tomcat-jdbc</artifactId>-->
-<!--      <version>9.0.10</version>-->
-<!--    </dependency>-->
 
     <!-- required to use H2 as a file based database  (Otherwise it's In-Memory) -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-jdbc</artifactId>
-<!--        <exclusions>-->
-<!--            <exclusion>-->
-<!--                <groupId>com.zaxxer</groupId>-->
-<!--                <artifactId>HikariCP</artifactId>-->
-<!--            </exclusion>-->
-<!--        </exclusions>-->
+
     </dependency>
 
     <!-- Required to use Spin dataformat support -->
@@ -183,24 +165,31 @@
 	</dependency>
 	
 	<!-- messaging integration -->
-<!--    <dependency>-->
-<!--      <groupId>org.springframework.boot</groupId>-->
-<!--      <artifactId>spring-boot-starter-amqp</artifactId>-->
-<!--    </dependency>-->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-amqp</artifactId>
+    </dependency>
     <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-stream</artifactId>
     </dependency>
-<!--    <dependency>-->
-<!--      <groupId>org.springframework.cloud</groupId>-->
-<!--      <artifactId>spring-cloud-stream-binder-rabbit</artifactId>-->
-<!--    </dependency>-->
-<!--    <dependency>-->
-<!--      <groupId>org.springframework.cloud</groupId>-->
-<!--      <artifactId>spring-cloud-stream-test-support</artifactId>-->
-<!--      <scope>test</scope>-->
-<!--    </dependency>-->
-	
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-stream-binder-rabbit</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-stream-test-support</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Hazelcast client -->
+    <dependency>
+      <groupId>com.hazelcast</groupId>
+      <artifactId>hazelcast</artifactId>
+      <version>4.1</version>
+    </dependency>
+
 	<!-- CSV Processing -->
 	<dependency>
 	    <groupId>com.opencsv</groupId>
@@ -217,17 +206,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-data-jpa</artifactId>
     </dependency>
-<!-- 
-	<dependency>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-security</artifactId>
-	</dependency>
-	<dependency>
-		<groupId>org.springframework.security.oauth.boot</groupId>
-		<artifactId>spring-security-oauth2-autoconfigure</artifactId>
-		<version>${version.springSecurityOauth2}</version>
-	</dependency>
- -->
+
 	<!-- Dev tools is disabled due to bug in variable serialization -->
 <!--	<dependency>-->
 <!--		<groupId>org.springframework.boot</groupId>-->
@@ -355,44 +334,6 @@
             <configuration>
             </configuration>
           </plugin>
-
-          <plugin>
-				<groupId>com.github.eirslett</groupId>
-				<artifactId>frontend-maven-plugin</artifactId>
-				<version>1.2</version>
-				<configuration>
-					<installDirectory>target</installDirectory>
-				</configuration>
-				<executions>
-					<execution>
-						<id>install node and npm</id>
-						<goals>
-							<goal>install-node-and-npm</goal>
-						</goals>
-						<configuration>
-							<nodeVersion>v12.10.0</nodeVersion>
-							<npmVersion>6.11.3</npmVersion>
-						</configuration>
-					</execution>
-
-					<execution>
-						<id>npm install</id>
-						<goals>
-							<goal>npm</goal>
-						</goals>
-						<configuration>
-							<arguments>install</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>webpack build</id>
-						<goals>
-							<goal>webpack</goal>
-						</goals>
-					</execution>
-
-                </executions>
-			</plugin>
 
             <plugin>
                 <groupId>org.springframework.boot</groupId>
