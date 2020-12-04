@@ -25,12 +25,12 @@ mvn spring-boot:run -Dspring.profiles.active=incident,integration
 
 **Profiles** can be specified at the command line when the application starts. The notation is as follows.
 
-`-Dspring.profiles.active=incident,integration,cors`
+`-Dspring.profiles.active=incident,integration`
 
 Or you can use the application.properties file to specify the profile.
 
 ```yaml
-spring.profiles.active: incident,integration,cors
+spring.profiles.active: incident,integration
 ```
 
 IMPORTANT: Using Camunda Enterprise - it's necessary to request a Camunda Enterprise License. 
@@ -46,8 +46,7 @@ With post-man you can move through the processes simulating REST requests to the
 - correlating messages
 
 ### See it running
-**Visit `http://<server>:<port>/sr` to access the React app.**
-
+Go to cockpit
 
 ## Architecture
 

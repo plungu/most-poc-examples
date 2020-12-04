@@ -1,70 +1,73 @@
 package com.camunda.poc.starter;
 
-import org.apache.ibatis.logging.LogFactory;
-import org.camunda.bpm.engine.ProcessEngine;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.camunda.bpm.engine.test.ProcessEngineRule;
+import org.camunda.bpm.extension.process_test_coverage.junit.rules.TestCoverageProcessEngineRuleBuilder;
 import org.camunda.bpm.scenario.ProcessScenario;
-//import org.camunda.bpm.scenario.Scenario;
-//import org.camunda.bpm.scenario.run.ProcessRunner.ExecutableRunner;
-
+import org.junit.*;
 import org.mockito.Mock;
-//import static org.mockito.Matchers.*;
-//import static org.mockito.Mockito.*;
 import org.mockito.MockitoAnnotations;
 
-import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.*;
-//import static org.junit.Assert.*;
+import java.util.HashMap;
+import java.util.Map;
+import org.camunda.bpm.engine.test.Deployment;
+import org.camunda.bpm.scenario.Scenario;
+import org.junit.Before;
+
+import static org.mockito.Mockito.*;
+
 
 /**
- * Test case starting an in-memory database-backed Process Engine.
+ * This community extension to Camunda BPM enables you to write robust test suites for process models.
+ * https://github.com/camunda/camunda-bpm-assert-scenario
+ * @author paul.lungu@camunda.com
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.NONE)
 public class ProcessScenarioTest {
 
-  //private static final String PROCESS_DEFINITION_KEY = "spring-boot-starter";
+    private static final String PROCESS_DEFINITION_KEY = "unit-test-process-example";
 
-  @Autowired
-  private ProcessEngine processEngine;
 
-  static {
-    LogFactory.useSlf4jLogging(); // MyBatis
-  }
+//  static {
+//    LoggerFactory.useSlf4jLogging(); // MyBatis
+//  }
 
-  @Before
-  public void setup() {
-    init(processEngine);
-    MockitoAnnotations.initMocks(this);
-  }
+    @Rule
+    @ClassRule
+    public static ProcessEngineRule rule = TestCoverageProcessEngineRuleBuilder.create().build();
 
-  @Mock
-  private ProcessScenario myProcess;
+    @Mock
+    protected ProcessScenario scenario;
 
-  @Test
-  public void testHappyPath() {
-    // Define scenarios by using camunda-bpm-assert-scenario:
+    @Mock
+    protected ProcessScenario otherScenario;
 
-    //ExecutableRunner starter = Scenario.run(myProcess) //
-    //    .startByKey(PROCESS_DEFINITION_KEY);
+    public Map<String, Object> variables = new HashMap<String, Object>();
 
-    // when(myProcess.waitsAtReceiveTask(anyString())).thenReturn((messageSubscription) -> {
-    //  messageSubscription.receive();
-    // });
-    // when(myProcess.waitsAtUserTask(anyString())).thenReturn((task) -> {
-    //  task.complete();
-    // });
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+    }
 
-    // OK - everything prepared - let's go and execute the scenario
-    //Scenario scenario = starter.execute();
+    @Before
+    public void conditions() {
+        variables.put("approved", false);
+    }
 
-    // now you can do some assertions   
-    //verify(myProcess).hasFinished("EndEvent");
-  }
+    @Test
+    @Deployment(resources = { "processes/unit-test-process-example.bpmn" })
+    public void testHappyPath() {
+
+      // Define scenarios by using camunda-bpm-assert-scenario:
+     when(scenario.waitsAtUserTask(anyString())).thenReturn((task) -> {
+      task.complete();
+     });
+
+     //OK - everything prepared - let's go and execute the scenario
+      Scenario.run(scenario).startByKey(PROCESS_DEFINITION_KEY, variables).execute();
+
+      //now you can do some assertions
+      verify(scenario, times(1)).hasFinished("unit-test-user-task");
+      verify(scenario, times(1)).hasFinished("end");
+
+    }
 
 }

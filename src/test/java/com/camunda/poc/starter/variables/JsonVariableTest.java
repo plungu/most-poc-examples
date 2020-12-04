@@ -22,8 +22,6 @@ import static org.camunda.bpm.engine.test.assertions.bpmn.AbstractAssertions.ini
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 public class JsonVariableTest {
 
-  //private static final String PROCESS_DEFINITION_KEY = "spring-boot-starter";
-
   @Autowired
   private ProcessEngine processEngine;
 
