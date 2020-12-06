@@ -21,7 +21,7 @@ mvn spring-boot:run -Dspring.profiles.active=integration
 Or you can use the application.properties file to specify the profile.
 
 ```yaml
-spring.profiles.active: hazelcast
+spring.profiles.active: integration
 ```
 
 IMPORTANT: Using Camunda Enterprise - it's necessary to request a Camunda Enterprise License. 

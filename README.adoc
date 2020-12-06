@@ -5,12 +5,12 @@ The purpose of this application is to provide specific examples for using Camund
 ### Examples
 |===
 | **Use Case** | **Feature Examples**
-| link:./docs/technical-case-events-and-messaging.adoc[Technical Case - Events and Messaging] | Integration with RabbitMQ, Global Execution Listener
-| link:./docs/technical-case-camunda-variables.adoc[Technical Case - Camunda Variables] | REST, Objects, JSON, Entity Manager
-| link:/docs/technical-case-history-engine-plugin.adoc[Technical Case - History Engine Plugin] | History Configuration, History Event Handler, History Transaction Listener, Custom History Level
-| link:/docs/technical-case-camunda-generic-pros-hisrtory-config.adoc[Technical Case - Generic Properties] | History Configuration with Generic Properties
+//| link:./docs/technical-case-events-and-messaging.adoc[Technical Case - Events and Messaging] | Integration with RabbitMQ, Global Execution Listener
+//| link:./docs/technical-case-camunda-variables.adoc[Technical Case - Camunda Variables] | REST, Objects, JSON, Entity Manager
+//| link:/docs/technical-case-history-engine-plugin.adoc[Technical Case - History Engine Plugin] | History Configuration, History Event Handler, History Transaction Listener, Custom History Level
+//| link:/docs/technical-case-camunda-generic-props-hisrtory-config.adoc[Technical Case - Generic Properties] | History Configuration with Generic Properties
 | link:/docs/technical-case-camunda-custom-incident-handler.adoc[Technical Case - Custom Incident Handler] | Custom Incident Handler
-| link:/docs/technical-case-camunda-hazelcast-integration.adoc[Technical Case - Hazelcast Integration] | Custom Incident Handler
+//| link:/docs/technical-case-camunda-hazelcast-integration.adoc[Technical Case - Hazelcast Integration] | Custom Incident Handler
 |===
 
 #### Running the server for Dev
