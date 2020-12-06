@@ -4,12 +4,12 @@
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>Flow_0340bh9</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:sequenceFlow id="Flow_0340bh9" sourceRef="StartEvent_1" targetRef="Activity_1urzquo" />
+    <bpmn:sequenceFlow id="Flow_0340bh9" sourceRef="StartEvent_1" targetRef="test-incident-handler-activity" />
     <bpmn:endEvent id="Event_1qwzyyz">
       <bpmn:incoming>Flow_1tfdcnt</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="Flow_1tfdcnt" sourceRef="Activity_1urzquo" targetRef="Event_1qwzyyz" />
-    <bpmn:serviceTask id="Activity_1urzquo" name="Test Incident Handler" camunda:asyncBefore="true" camunda:delegateExpression="${incidentTestDelegate}">
+    <bpmn:sequenceFlow id="Flow_1tfdcnt" sourceRef="test-incident-handler-activity" targetRef="Event_1qwzyyz" />
+    <bpmn:serviceTask id="test-incident-handler-activity" name="Test Incident Handler" camunda:asyncBefore="true" camunda:delegateExpression="${incidentTestDelegate}">
       <bpmn:incoming>Flow_0340bh9</bpmn:incoming>
       <bpmn:outgoing>Flow_1tfdcnt</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -30,7 +30,7 @@
       <bpmndi:BPMNShape id="Event_1qwzyyz_di" bpmnElement="Event_1qwzyyz">
         <dc:Bounds x="692" y="99" width="36" height="36" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_10tbw0w_di" bpmnElement="Activity_1urzquo">
+      <bpmndi:BPMNShape id="Activity_10tbw0w_di" bpmnElement="test-incident-handler-activity">
         <dc:Bounds x="400" y="77" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>

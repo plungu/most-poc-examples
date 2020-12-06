@@ -215,7 +215,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"businessKey\" : \"{{$guid}}\",\n\t\"variables\": {\n\t\t\"remainingDays\": \n\t\t{\n\t\t\t\"value\": 10\n\t\t},\n\t\t\"error\": \n\t\t{\n\t\t\t\"value\": false\n\t\t},\n\t\t\"address\":\n\t\t{\n\t\t\t\"value\":\"{\\\"type\\\": \\\"PostalAddress\\\",\\\"addressLocality\\\": \\\"Denver\\\",\\\"addressRegion\\\": \\\"CO\\\",\\\"postalCode\\\": \\\"80209\\\",\\\"streetAddress\\\": \\\"7 S. Broadway\\\"}\",\n\t\t\t\"type\":\"Json\"\n\t\t},\n\t\t\"contact\": \n\t\t{\n\t\t\t\"value\": \"{\\\"name\\\": \\\"Paul\\\", \\\"email\\\": \\\"Paul.Lungu@camunda.com\\\"}\",\n\t\t\t\"type\": \"Object\",\n\t\t\t\"valueInfo\": \n\t\t\t{\n\t\t\t\t\"objectTypeName\": \"com.camunda.poc.starter.entity.Contact\",\n\t\t\t\t\"serializationDataFormat\": \"application/json\"\n\t\t\t}\n\t    }\n\t}\n}\n",
+					"raw": "{\n\t\"businessKey\" : \"{{$guid}}\",\n\t\"variables\": {\n\t\t\"remainingDays\": \n\t\t{\n\t\t\t\"value\": 10\n\t\t},\n\t\t\"error\": \n\t\t{\n\t\t\t\"value\": true\n\t\t},\n\t\t\"address\":\n\t\t{\n\t\t\t\"value\":\"{\\\"type\\\": \\\"PostalAddress\\\",\\\"addressLocality\\\": \\\"Denver\\\",\\\"addressRegion\\\": \\\"CO\\\",\\\"postalCode\\\": \\\"80209\\\",\\\"streetAddress\\\": \\\"7 S. Broadway\\\"}\",\n\t\t\t\"type\":\"Json\"\n\t\t},\n\t\t\"contact\": \n\t\t{\n\t\t\t\"value\": \"{\\\"name\\\": \\\"Paul\\\", \\\"email\\\": \\\"Paul.Lungu@camunda.com\\\"}\",\n\t\t\t\"type\": \"Object\",\n\t\t\t\"valueInfo\": \n\t\t\t{\n\t\t\t\t\"objectTypeName\": \"com.camunda.poc.starter.entity.Contact\",\n\t\t\t\t\"serializationDataFormat\": \"application/json\"\n\t\t\t}\n\t    }\n\t}\n}\n",
 					"options": {
 						"raw": {}
 					}
